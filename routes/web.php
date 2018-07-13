@@ -33,3 +33,12 @@ Route::get('/test_mongo', function () {
     $post->url = 'ewetr';
     $post->save();
 });
+
+
+
+
+Route::get('/gvb/setwebhook', 'GolosVoterBotController@setWebHook');
+Route::get('/gvb/removewebhook', 'GolosVoterBotController@removeWebHook');
+Route::get('/gvb/show', 'GolosVoterBotController@showPosts');
+
+Route::post('/_gvb_/webhook', 'GolosVoterBotController@webHookUpdate');

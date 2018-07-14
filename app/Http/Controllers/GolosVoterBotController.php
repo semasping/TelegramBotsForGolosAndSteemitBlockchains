@@ -144,14 +144,14 @@ class GolosVoterBotController extends Controller
         $response = Telegram::setAccessToken($this->getApiKeyBot())->setWebhook(['url' => $url]);
         dump($response);
 
-        return 'ok';
+        return 'set ok';
     }
 
     public function removeWebHook()
     {
         $response = Telegram::setAccessToken($this->getApiKeyBot())->removeWebhook();
         dump($response);
-        return 'ok';
+        return 'remove ok';
     }
 
     public function webHookUpdate()

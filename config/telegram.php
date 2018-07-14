@@ -112,7 +112,7 @@ return [
     'commands' => [
         Telegram\Bot\Commands\HelpCommand::class,
         App\STCommands\StartCommand::class,
-        App\STCommands\TestCommand::class,
+        //App\STCommands\TestCommand::class,
         //App\STCommands\Test2Command::class,
     ],
 

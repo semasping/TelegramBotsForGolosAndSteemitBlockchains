@@ -47,11 +47,11 @@ class BoteController extends Controller
 
 
 
-            Telegram::setAccessToken($this->getApiKeyBot())->addCommands([
+            /*Telegram::setAccessToken($this->getApiKeyBot())->addCommands([
                 \App\TCommands\Test2Command::class,
                 \App\TCommands\TestTestTestCommand::class,
                 \App\TCommands\Test3Command::class,
-            ]);
+            ]);*/
 
 
             $updates = Telegram::setAccessToken($this->getApiKeyBot())->commandsHandler(true);

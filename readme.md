@@ -16,12 +16,16 @@ git clone https://github.com/semasping/TelegramBotsForGolosAndSteemitBlockchains
 composer install
 
 cp .env.example  .env
+php artisan key:generate
 # setup setting in .env file:
 # * db settings
 # * telegram keys 
 
+
 php artisan migrate
 ```
+
+
 
 
 

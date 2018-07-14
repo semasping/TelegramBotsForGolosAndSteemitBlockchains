@@ -156,6 +156,8 @@ class GolosVoterBotController extends Controller
 
     public function webHookUpdate()
     {
+
+
         $updates = Telegram::setAccessToken($this->getApiKeyBot())->getWebhookUpdates();
         //AdminNotify::send('GOLOS:' . $this->bot_name . ' получили данные. Первая фаза' . print_r($updates, true));
         //return response('', 200);
@@ -200,6 +202,9 @@ class GolosVoterBotController extends Controller
                 return response('', 200);
             }
             if ($this->settingPart()) {
+                response('ok', 200);
+            }
+            if ($this->StartPart()) {
                 response('ok', 200);
             }
 
@@ -1686,6 +1691,14 @@ class GolosVoterBotController extends Controller
             return $status;
         }
 
+    }
+
+    private function StartPart()
+    {
+        if (str_contains($this->message['text'], '/start')) {
+            $this->sendText('Установите главный аккаунт и другие настройки:  /menu');
+            return true;
+        }
     }
 
 

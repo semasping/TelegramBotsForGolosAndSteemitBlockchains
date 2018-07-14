@@ -767,7 +767,7 @@ class GolosVoterBotController extends Controller
                 $chat_settings = Cache::remember('golos_chat_setting_' . $chatid, 10, function () use ($chatid, $bot_name) {
                     return GolosBotsSettings::where('chat_id', $chatid)->where('bot_name', $bot_name)->first();
                 });
-                if ( ! $chat_settings) {
+                if ( ! $chat_settings->data['can_manage']) {
                     $chat_admins = Telegram::setAccessToken($this->getApiKeyBot())->getChatAdministrators([
                         'chat_id' => $chatid
                     ]);
@@ -793,7 +793,7 @@ class GolosVoterBotController extends Controller
 
                     return $this->sendText($text);
                 }
-                if ($chat_settings) {
+                if ($chat_settings->data['can_manage']) {
                     //AdminNotify::send($this->from_id);
                     $data = $chat_settings->data;
                     if ($data['can_manage'] == 'admin') {

@@ -180,6 +180,10 @@ class GolosVoterBotController extends Controller
             $this->getMainData($updates);
 
 
+            if ($this->startPart()) {
+                response('ok', 200);
+            }
+
             if ($this->showMenuPart()) {
 
                 return response('ok', 200);
@@ -203,9 +207,6 @@ class GolosVoterBotController extends Controller
                 return response('', 200);
             }
             if ($this->settingPart()) {
-                response('ok', 200);
-            }
-            if ($this->startPart()) {
                 response('ok', 200);
             }
 
@@ -763,7 +764,7 @@ class GolosVoterBotController extends Controller
 
             if ($chatid < 0 && isset($mess['entities'])) { //значит группа или супергруппа а так же содержится массив entities - то говорит о том что может быть комманда
                 $bot_name = $this->bot_name;
-                $chat_settings = Cache::remember('7golos_chat_setting_' . $chatid, 10, function () use ($chatid, $bot_name) {
+                $chat_settings = Cache::remember('golos_chat_setting_' . $chatid, 10, function () use ($chatid, $bot_name) {
                     return GolosBotsSettings::where('chat_id', $chatid)->where('bot_name', $bot_name)->first();
                 });
                 if ( ! $chat_settings) {
@@ -1702,6 +1703,7 @@ class GolosVoterBotController extends Controller
     {
         if (str_contains($this->message['text'], '/start')) {
             $this->sendText('Установите главный аккаунт и другие настройки:  /menu');
+            $this->setSettingBot([]);
             return true;
         }
     }

@@ -13,7 +13,7 @@
 
 use App\MongoModels\PostForCuration;
 
-Route::post('/weioth/webhook', 'GolosVoterBotController@webHookUpdate');
+Route::post('/weioth/webhook', 'BoteController@webHookUpdate');
 
 //можно сделать имя бота параметром. или base16 и выдергивать из базы. нам всё равно нужна будет куча ботов.
 Route::get('/setwebhook', 'BoteController@setWebHook');

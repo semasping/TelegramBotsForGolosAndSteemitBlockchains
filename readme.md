@@ -15,6 +15,7 @@ git clone https://github.com/semasping/TelegramBotsForGolosAndSteemitBlockchains
 
 composer install
 
+cp .env.example  .env
 # setup setting in .env file:
 # * db settings
 # * telegram keys 

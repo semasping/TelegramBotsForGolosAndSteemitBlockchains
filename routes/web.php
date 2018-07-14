@@ -32,6 +32,7 @@ Route::get('/test_mongo', function () {
     //$post->set
     $post->url = 'ewetr';
     $post->save();
+    \App\semas\AdminNotify::send('Test MongoDB^ '. print_r($post,true));
 });
 
 

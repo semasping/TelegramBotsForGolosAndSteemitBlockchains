@@ -205,7 +205,7 @@ class GolosVoterBotController extends Controller
             if ($this->settingPart()) {
                 response('ok', 200);
             }
-            if ($this->StartPart()) {
+            if ($this->startPart()) {
                 response('ok', 200);
             }
 
@@ -1565,12 +1565,16 @@ class GolosVoterBotController extends Controller
      */
     private function getSettingBot($key, $def = '')
     {
+
         $settings = GolosBotsSettings::where('chat_id', $this->chatid)->where('bot_name', $this->bot_name)->first();
         // AdminNotify::send(print_r($settings, true));
+        try {
+            $data = $settings->data;
 
-        $data = $settings->data;
+        } catch (Exception $e) {
+            $data = [];
+        }
         $data = collect($data);
-
         // AdminNotify::send(print_r($data, true));
 
         return $data->get($key, $def);
@@ -1694,10 +1698,10 @@ class GolosVoterBotController extends Controller
 
     }
 
-    private function StartPart()
+    private function startPart()
     {
         if (str_contains($this->message['text'], '/start')) {
-            $this->sendText('1111Установите главный аккаунт и другие настройки:  /menu');
+            $this->sendText('Установите главный аккаунт и другие настройки:  /menu');
             return true;
         }
     }

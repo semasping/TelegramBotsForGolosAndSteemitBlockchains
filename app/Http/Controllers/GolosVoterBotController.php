@@ -141,6 +141,7 @@ class GolosVoterBotController extends Controller
     public function setWebHook()
     {
         $url = URL::to('/_gvb_/webhook');
+        dump($url);
         $response = Telegram::setAccessToken($this->getApiKeyBot())->setWebhook(['url' => $url]);
         dump($response);
 

@@ -765,7 +765,7 @@ class GolosVoterBotController extends Controller
             if ($chatid < 0 && isset($mess['entities'])) { //значит группа или супергруппа а так же содержится массив entities - то говорит о том что может быть комманда
                 $bot_name = $this->bot_name;
                 $chat_settings = Cache::remember('golos_chat_setting_' . $chatid, 10, function () {
-                    return $this->getSettingBot('can_manage');
+                    return $this->getSettingBot('can_manage','all');
                 });
                 if ( ! $chat_settings) {
                     $chat_admins = Telegram::setAccessToken($this->getApiKeyBot())->getChatAdministrators([
@@ -796,7 +796,8 @@ class GolosVoterBotController extends Controller
                 if ($chat_settings) {
                     //AdminNotify::send($this->from_id);
                     $data = $chat_settings;
-                    if ($data['can_manage'] == 'admin') {
+                    if ($data == 'admin') {
+                        $admins = $this->getSettingBot('admins', []);
                         if ( ! in_array($mess['from']['id'], $data['admins'])) {
                             AdminNotify::send($mess['from']['id'] . ' only admin');
                             $text = 'Ботом могут управлять только администраторы группы. Если вам нужно включить возможность управления любым участником - попросите администратора запустить команду /can_manage_all';

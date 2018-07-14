@@ -13,9 +13,9 @@
 
 use App\MongoModels\PostForCuration;
 
-Route::post('/weioth/webhook', 'BoteController@webHookUpdate');
+Route::post('/weioth/webhook', 'GolosVoterBotController@webHookUpdate');
 
-//можно сделать имя бота параметром. или base16 и выдергивать из базы. нам всё равно нужно будет куча ботов.
+//можно сделать имя бота параметром. или base16 и выдергивать из базы. нам всё равно нужна будет куча ботов.
 Route::get('/setwebhook', 'BoteController@setWebHook');
 Route::get('/removewebhook', 'BoteController@removeWebHook');
 

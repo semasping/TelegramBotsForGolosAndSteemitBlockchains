@@ -118,11 +118,11 @@ class checkPostVoterBot extends Command
             $break = false;
             $data = $post['data'];
             if ( ! isset($data['do_vote'])) {
-                $this->dispatch((new \App\Jobs\GolosVoterBotDoVote($post))->onQueue('voteBot'));
+                $this->dispatch((new \App\Jobs\GolosVoterBotDoVote($post))->onQueue(getenv('VOTE_BOT_QUEUE_KEY')));
                 $break = true;
             }
             if ( ! isset($data['do_comment'])) {
-                $this->dispatch((new \App\Jobs\GolosVoterBotDoComment($post))->onQueue('voteBot')->delay(Date::now()->addSeconds(25)));
+                $this->dispatch((new \App\Jobs\GolosVoterBotDoComment($post))->onQueue(getenv('VOTE_BOT_QUEUE_KEY'))->delay(Date::now()->addSeconds(25)));
                 $break = true;
 
             }

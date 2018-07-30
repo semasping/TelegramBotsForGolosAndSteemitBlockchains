@@ -1090,4 +1090,63 @@ class GolosApi
         return true;
     }
 
+    public static function checkFollow($account, $author)
+    {
+        $followers = self::getFollowers($account);
+        //dump($followers);
+        $followers = collect($followers)->pluck('follower')->toArray();
+        //dump($followers);
+        if (in_array($author, $followers)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function getComments($author, $permlink)
+    {
+        $content = '';
+        try {
+            //$command = new GetContentRepliesCommand(new GolosWsConnector());
+
+            $commandQuery = new CommandQueryData();
+            $commandQuery->setParamByKey('0', $author);
+            $commandQuery->setParamByKey('1', $permlink);
+
+            $command = new Commands(self::getConnector());
+
+            $command = $command->get_content_replies();
+            $content = $command->execute($commandQuery);
+
+        } catch (Exception $e) {
+            GolosApi::disconnect();
+
+            return self::checkResult($content, 'getComments', [$author, $permlink]);
+        }
+
+        return self::checkResult($content, 'getComments', [$author, $permlink]);
+    }
+
+    public static function getPostVotes($author, $permlink)
+    {
+        $content = '';
+        try {
+
+            $commandQuery = new CommandQueryData();
+            $commandQuery->setParamByKey('0', $author);
+            $commandQuery->setParamByKey('1', $permlink);
+
+            $command = new Commands(self::getConnector());
+
+            $command = $command->get_active_votes();
+            $content = $command->execute($commandQuery);
+
+        } catch (Exception $e) {
+            self::disconnect();
+
+            return self::checkResult($content, 'getPostVotes', [$author, $permlink]);
+        }
+
+        return self::checkResult($content, 'getPostVotes', [$author, $permlink]);
+    }
 }

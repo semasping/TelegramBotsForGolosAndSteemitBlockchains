@@ -1040,4 +1040,54 @@ class GolosApi
 
     }
 
+    public static function vote($acc, $key, $permlink, $author)
+    {
+        $command = "node GolosVote.js --acc=$acc --pp=$permlink --pa=$author";
+        exec($command . " --key=$key", $o, $r);
+        dump($o, $r);
+        $alreadyVote = collect($o)->filter(function ($item) {
+            if (strpos($item, 'You have already voted in a similar way') !== false) {
+                return $item;
+            }
+        });
+        if ($alreadyVote->count() > 0) {
+            AdminNotify::send('Already voted:' . print_r($alreadyVote, true));
+
+            return true;
+        }
+        $errorVote = collect($o)->filter(function ($item) {
+            if (strpos($item, 'Error') !== false) {
+                return $item;
+            }
+        });
+        if ($errorVote->count() > 0) {
+            AdminNotify::send('Error vote:' . print_r($errorVote, true) . "\n" . $command);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function comment($acc, $key, $permlink, $author, $body)
+    {
+        //AdminNotify::send("node GolosComment.js --acc=$acc --key=.... --pp=$permlink --pa=$author --body='$body'");
+        //$author = str_replace('.','',$author);
+        $command = "node GolosComment.js --acc=$acc --pp=$permlink --pa=$author --body='$body'";
+        exec($command . " --key=$key", $o, $r);
+        dump($o, $r);
+        $errorComment = collect($o)->filter(function ($item) {
+            if (strpos($item, 'Error') !== false) {
+                return $item;
+            }
+        });
+        if ($errorComment->count() > 0) {
+            AdminNotify::send('Error comment:' . print_r($errorComment, true) . "\n" . $command . "\n" . 'body:' . $body);
+
+            return false;
+        }
+
+        return true;
+    }
+
 }

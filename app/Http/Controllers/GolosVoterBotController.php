@@ -160,8 +160,8 @@ class GolosVoterBotController extends Controller
 
 
         $updates = Telegram::setAccessToken($this->getApiKeyBot())->getWebhookUpdates();
-        //AdminNotify::send('GOLOS:' . $this->bot_name . ' получили данные. Первая фаза' . print_r($updates, true));
-        //return response('', 200);
+        AdminNotify::send('GOLOS:' . $this->bot_name . ' получили данные. Первая фаза' . print_r($updates, true));
+        return response('', 200);
 
         try {
             if ($this->inlinePart($updates)) {

@@ -42,7 +42,7 @@ class GolosApiWsConnector extends WSConnectorAbstract
 
 
     public function destroyConnection() {
-        //self::$connection = null;
+        self::$connection = null;
     }
 
 

@@ -1149,4 +1149,24 @@ class GolosApi
 
         return self::checkResult($content, 'getPostVotes', [$author, $permlink]);
     }
+
+
+    /**
+     * @param $post
+     * @param $acc
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function check_comment($post, $acc)
+    {
+        $link = $post['link'];
+        $result = explode('/@', $link);
+        $permlink = explode("/", $result[1]);
+        $permlink = $permlink[1];
+        $comments = self::getComments($post['author'], $permlink);
+        $comments = collect($comments);
+        $comment = $comments->where('author', $acc);
+
+        return $comment;
+    }
 }

@@ -11,6 +11,7 @@ use App\GolosBotsSettings;
 use App\GolosVoterBot;
 use App\semas\AdminNotify;
 use App\semas\GolosApi;
+use App\STBotsHelpers\Shares;
 use Exception;
 use GrapheneNodeClient\Tools\Transliterator;
 use Illuminate\Http\Request;
@@ -1568,18 +1569,11 @@ class GolosVoterBotController extends Controller
     private function getSettingBot($key, $def = '')
     {
 
-        $settings = GolosBotsSettings::where('chat_id', $this->chatid)->where('bot_name', $this->bot_name)->first();
-        // AdminNotify::send(print_r($settings, true));
-        try {
-            $data = $settings->data;
 
-        } catch (Exception $e) {
-            $data = [];
-        }
-        $data = collect($data);
+       return Shares::getBotSettings($this->bot_name,$this->chatid,$key,$def);
         // AdminNotify::send(print_r($data, true));
 
-        return $data->get($key, $def);
+
     }
 
     private function checkBlacklistAuthor($author)

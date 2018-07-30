@@ -7,6 +7,7 @@ use App\GolosVoterBot;
 use App\Http\Controllers\GolosVoterBotController;
 use App\semas\AdminNotify;
 use App\semas\GolosApi;
+use App\STBotsHelpers\Shares;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Jenssegers\Date\Date;
@@ -227,15 +228,7 @@ class checkPostVoterBot extends Command
 
     private function getSettingBot($chat_id, $bot_name, $key, $def = '')
     {
-        $settings = GolosBotsSettings::where('chat_id', $chat_id)->where('bot_name', $bot_name)->first();
-        // AdminNotify::send(print_r($settings, true));
-
-        $data = $settings->data;
-        $data = collect($data);
-
-        // AdminNotify::send(print_r($data, true));
-
-        return $data->get($key, $def);
+        return Shares::getBotSettings($bot_name,$chat_id,$key,$def);
     }
 
     private function getAvrgVote($count)

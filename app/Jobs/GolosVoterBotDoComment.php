@@ -12,6 +12,7 @@ use App\GolosBotsSettings;
 use App\GolosVoterBot;
 use App\semas\AdminNotify;
 use App\semas\GolosApi;
+use App\STBotsHelpers\Shares;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -96,15 +97,8 @@ class GolosVoterBotDoComment implements ShouldQueue
 
     private function getSettingBot($key, $def = '', $chatid, $bot_name)
     {
-        $settings = GolosBotsSettings::where('chat_id', $chatid)->where('bot_name', $bot_name)->first();
-        // AdminNotify::send(print_r($settings, true));
+        return Shares::getBotSettings($bot_name,$chatid,$key,$def);
 
-        $data = $settings->data;
-        $data = collect($data);
-
-        // AdminNotify::send(print_r($data, true));
-
-        return $data->get($key, $def);
     }
 
     private function getComment()
@@ -116,7 +110,7 @@ class GolosVoterBotDoComment implements ShouldQueue
         if ($follow) {
             $type = 'comment_list_subscribe';
         }
-dump ($type);
+        dump ($type);
         return collect($this->getSettingBot($type, '', $this->post->chat_id, 'GolosVoterBot'))->get($this->post->data['avrg_vote'], '');
     }
 }
